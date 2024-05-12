@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LibraryService {
@@ -28,5 +30,10 @@ public class LibraryService {
 
     public void getBooks() {
         repository.showBooks();
+    }
+
+    public void removeBook(@NotNull String title) {
+        books.removeIf(book -> book.getTitle().equalsIgnoreCase(title ));
+        repository.removeBook(title);
     }
 }

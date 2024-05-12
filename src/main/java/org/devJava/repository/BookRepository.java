@@ -1,5 +1,6 @@
 package org.devJava.repository;
 
+import org.devJava.book.Book;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
@@ -69,6 +70,18 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             System.out.println("Failed to show books:" + e.getMessage());
+        }
+    }
+
+    public void removeBook(@NotNull String title) {
+        String query = "DELETE FROM books WHERE title=?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, title);
+            preparedStatement.executeUpdate();
+            System.out.println("Book removed successfully");
+        } catch (SQLException e) {
+            System.out.println("Failed to remove book: " + e.getMessage());
         }
     }
 }

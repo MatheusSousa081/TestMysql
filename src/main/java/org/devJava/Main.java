@@ -11,8 +11,9 @@ public class Main {
         LibraryService libraryService = LibraryService.createLibraryService(repository);
 
         repository.createConnection();
-        libraryService.addBook("Java Efetivo", "Joshua Bloch", Year.of(2019));
+        //libraryService.addBook("Java Efetivo", "Joshua Bloch", Year.of(2019));
         libraryService.getBooks();
+        //libraryService.removeBook("To Kill a Mockingbird");
         repository.closeConnection();
     }
 }
