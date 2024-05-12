@@ -4,18 +4,13 @@ import org.devJava.book.Book;
 import org.devJava.repository.BookRepository;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class LibraryService {
     private BookRepository repository;
-    private List<Book> books;
 
     public LibraryService(BookRepository repository) {
-        books = new ArrayList<>();
         this.repository = repository;
     }
 
@@ -23,17 +18,19 @@ public class LibraryService {
         return new LibraryService(bookRepository);
     }
 
-    public void addBook(@NotNull String title,@NotNull String author,@NotNull Year year) {
-        books.add(new Book(title, author, year));
+    public void addBook(@NotNull String title,@NotNull String author,@NotNull Year year)throws SQLException {
         repository.registerBook(title, author, year);
     }
 
-    public void getBooks() {
+    public void getBooks() throws SQLException{
         repository.showBooks();
     }
 
-    public void removeBook(@NotNull String title) {
-        books.removeIf(book -> book.getTitle().equalsIgnoreCase(title ));
+    public void removeBook(@NotNull String title) throws SQLException{
         repository.removeBook(title);
+    }
+
+    public void updateBook(@NotNull int id, @NotNull String newTitle, @NotNull String newAuthor, @NotNull Year newYear) throws SQLException{
+        repository.updateBook(id, newTitle, newAuthor, newYear);
     }
 }

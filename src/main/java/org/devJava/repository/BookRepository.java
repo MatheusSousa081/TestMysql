@@ -17,71 +17,61 @@ public class BookRepository {
         return connection;
     }
 
-    public void showInfo() throws SQLException{
-        try {
-            System.out.println(connection.getClientInfo());
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+    public void showInfo() throws SQLException {
+        System.out.println(connection.getClientInfo());
+
     }
 
-    public void createConnection() {
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the database");
-        } catch (SQLException e) {
-            System.out.println("Error in connect to the database: " + e.getMessage());
-        }
+    public void createConnection() throws SQLException {
+        connection = DriverManager.getConnection(url, user, password);
+        System.out.println("Connected to the database");
+
     }
 
-    public void closeConnection() {
-        try {
-            connection.close();
-            System.out.println("Connection closed");
-        } catch (SQLException e) {
-            System.out.println("Error in close the connection: " + e.getMessage());
-        }
+    public void closeConnection() throws SQLException {
+        connection.close();
+        System.out.println("Connection closed");
+
     }
 
-    public void registerBook(@NotNull String title,@NotNull String author,@NotNull Year year) {
+    public void registerBook(@NotNull String title, @NotNull String author, @NotNull Year year) throws SQLException {
         String query = "INSERT INTO books (title, author, year) VALUES (?, ?, ?)";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, title);
-            preparedStatement.setString(2, author);
-            preparedStatement.setInt(3, year.getValue());
-            preparedStatement.executeUpdate();
-            System.out.println("Book added successfully");
-        } catch (SQLException e) {
-            System.out.println("Failed to add the book: " + e.getMessage());
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        preparedStatement.setInt(3, year.getValue());
+        preparedStatement.executeUpdate();
+        System.out.println("Book added successfully");
     }
 
-    public void showBooks() {
+    public void showBooks() throws SQLException {
         String query = "SELECT * FROM books";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                System.out.println((resultSet.getInt("id") + " - " +
-                        resultSet.getString("title") + " by " +
-                        resultSet.getString("author") + " (" +
-                        resultSet.getInt("year") + ")"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Failed to show books:" + e.getMessage());
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            System.out.println((resultSet.getInt("id") + " - " +
+                    resultSet.getString("title") + " by " +
+                    resultSet.getString("author") + " (" +
+                    resultSet.getInt("year") + ")"));
         }
     }
 
-    public void removeBook(@NotNull String title) {
+    public void removeBook(@NotNull String title) throws SQLException {
         String query = "DELETE FROM books WHERE title=?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, title);
-            preparedStatement.executeUpdate();
-            System.out.println("Book removed successfully");
-        } catch (SQLException e) {
-            System.out.println("Failed to remove book: " + e.getMessage());
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.executeUpdate();
+        System.out.println("Book removed successfully");
+    }
+
+    public void updateBook(@NotNull int id, @NotNull String newTitle, String newAuthor, Year year) throws SQLException {
+        String query = "UPDATE books SET title=?, author=?, year=? WHERE id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, newTitle);
+        preparedStatement.setString(2, newAuthor);
+        preparedStatement.setInt(3, year.getValue());
+        preparedStatement.setInt(4, id);
+        preparedStatement.executeUpdate();
+        System.out.println("Book updated successfully");
     }
 }
