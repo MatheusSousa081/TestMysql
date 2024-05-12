@@ -2,7 +2,9 @@ package org.devJava.service;
 
 import org.devJava.book.Book;
 import org.devJava.repository.BookRepository;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,11 @@ public class LibraryService {
         this.repository = repository;
     }
 
-    public void addBook(String title, String author, int year) {
+    public static LibraryService createLibraryService(@NotNull BookRepository bookRepository) {
+        return new LibraryService(bookRepository);
+    }
+
+    public void addBook(@NotNull String title,@NotNull String author,@NotNull Year year) {
         books.add(new Book(title, author, year));
         repository.registerBook(title, author, year);
     }

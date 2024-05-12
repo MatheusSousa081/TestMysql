@@ -1,11 +1,14 @@
 package org.devJava.repository;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
+import java.time.Year;
 
 public class BookRepository {
-    private String url = "jdbc:mysql://localhost:3306/teste-java";
-    private String user = "matheus";
-    private String password = "0511";
+    private final String url = "jdbc:mysql://localhost:3306/teste-java";
+    private final String user = "matheus";
+    private final String password = "0511";
 
     private Connection connection;
 
@@ -13,11 +16,11 @@ public class BookRepository {
         return connection;
     }
 
-    public void showInfo() {
+    public void showInfo() throws SQLException{
         try {
             System.out.println(connection.getClientInfo());
         } catch (SQLException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -39,13 +42,13 @@ public class BookRepository {
         }
     }
 
-    public void registerBook(String title, String author, int year) {
+    public void registerBook(@NotNull String title,@NotNull String author,@NotNull Year year) {
         String query = "INSERT INTO books (title, author, year) VALUES (?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, author);
-            preparedStatement.setInt(3, year);
+            preparedStatement.setInt(3, year.getValue());
             preparedStatement.executeUpdate();
             System.out.println("Book added successfully");
         } catch (SQLException e) {

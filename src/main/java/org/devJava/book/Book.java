@@ -1,11 +1,13 @@
 package org.devJava.book;
 
-public class Book {
-    private String title;
-    private String author;
-    private int year;
+import java.time.Year;
 
-    public Book(String title, String author, int year) {
+public class Book {
+    private final String title;
+    private final String author;
+    private final Year year;
+
+    public Book(String title, String author, Year year) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -15,24 +17,12 @@ public class Book {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getYear() {
+    public Year getYear() {
         return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     @Override
