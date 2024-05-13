@@ -10,11 +10,11 @@ import java.time.Year;
 public class LibraryService {
     private BookRepository repository;
 
-    public LibraryService(BookRepository repository) {
+    private LibraryService(BookRepository repository) {
         this.repository = repository;
     }
 
-    public static LibraryService createLibraryService(@NotNull BookRepository bookRepository) {
+    public static LibraryService create(@NotNull BookRepository bookRepository) {
         return new LibraryService(bookRepository);
     }
 

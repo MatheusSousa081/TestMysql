@@ -9,7 +9,7 @@ import java.time.Year;
 public class Main {
     public static void main(String[] args) throws SQLException {
         BookRepository repository = new BookRepository();
-        LibraryService libraryService = LibraryService.createLibraryService(repository);
+        LibraryService libraryService = LibraryService.create(repository);
 
         repository.createConnection();
         //libraryService.addBook("Java is life", "Matheus", Year.of(2024));
